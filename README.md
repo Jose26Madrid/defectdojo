@@ -44,30 +44,29 @@ curl -X POST http://<IP>:8080/api/v2/api-token-auth/ \
 ```
 ## 📦 4. Crear entidades con la API
 
-```bash
 ### ① Producto
-
+```bash
 curl -X POST http://<IP>:8080/api/v2/products/ \
   -H "Authorization: Token <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"name": "Mi Producto", "description": "Descripción", "prod_type": 1}'
-
+```
 ### ② Engagement
-
+```bash
 curl -X POST http://<IP>:8080/api/v2/engagements/ \
   -H "Authorization: Token <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"product": 1, "name": "Engagement de prueba", "target_start": "2025-04-23", "target_end": "2025-04-30", "status": "In Progress"}'
-
+```
 ### ③ Test
-
+```bash
 curl -X POST http://<IP>:8080/api/v2/tests/ \
   -H "Authorization: Token <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"title": "Test sin environment", "engagement": 1, "test_type": 3, "target_start": "2025-04-23", "target_end": "2025-04-23"}'
-
+```
 ### ④ Finding
-
+```bash
 curl -X POST http://<IP>:8080/api/v2/findings/ \
   -H "Authorization: Token <TOKEN>" \
   -H "Content-Type: application/json" \

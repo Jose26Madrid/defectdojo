@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  defectdojo-postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: defectdojo
+      POSTGRES_PASSWORD: defectdojo
+      POSTGRES_DB: defectdojo
+    volumes:
+      - defectdojo_postgres_data:/var/lib/postgresql/data
+    networks:
+      - defectdojo-net
+
+  defectdojo-redis:
+    image: redis:7-alpine
+    volumes:
+      - defectdojo_redis_data:/data
+    networks:
+      - defectdojo-net
+
+  defectdojo-uwsgi:
+    image: defectdojo/defectdojo-django:latest
+    environment:
+      DD_DATABASE_URL: postgres://defectdojo:defectdojo@defectdojo-postgres:5432/defectdojo
+      DD_REDIS_URL: redis://defectdojo-redis:6379/0
+      DD_ALLOWED_HOSTS: '*'
+      DD_DEBUG: 'False'
+      DD_CSRF_TRUSTED_ORIGINS: '*'
+    depends_on:
+      - defectdojo-postgres
+      - defectdojo-redis
+    networks:
+      - defectdojo-net
+
+  defectdojo-nginx:
+    image: defectdojo/defectdojo-nginx:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - defectdojo-uwsgi
+    networks:
+      - defectdojo-net
+
+volumes:
+  defectdojo_postgres_data:
+  defectdojo_redis_data:
+
+networks:
+  defectdojo-net:
+    driver: bridge

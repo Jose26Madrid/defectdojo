@@ -71,15 +71,16 @@ curl -X POST http://<IP>:8080/api/v2/findings/ \
   -H "Authorization: Token <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Inyección SQL en Login",
+    "title": "Inyección SQL en login",
+    "description": "Campo usuario vulnerable a inyección SQL.",
     "severity": "High",
-    "numerical_severity": 2,
-    "description": "Se detectó inyección SQL.",
+    "numerical_severity": "S1",
     "test": 1,
+    "found_by": [3],
     "active": true,
-    "verified": true,
-    "found_by": [3]
+    "verified": true
 }'
+
 
 ```
 ## 📋 5. Endpoints útiles
